@@ -1,0 +1,57 @@
+#Tareas previas
+ssh mcc4423998@hadoop.ugr.es
+
+#Crear directorio de persistencia
+mkdir mongodb-persistence
+#Descargar contenedor docker ligero de MongoDB
+docker run -d --name mm.mongodb -v ~/mongodb-persistence:/data/db mvertes/alpine-mongo
+#Instalar paquetes necesarios
+docker exec -it mm.mongodb sh -c "apk update && apk upgrade && apk add mongodb-tools"
+
+#Consultar docs
+#Copiar fichero con el cual se trabajará
+docker exec -i mm.mongodb sh -c 'cat > ~/insertar_pedidos.js' < /tmp/mongo/insertar_pedidos.js
+#Copiar fichero creado con consultas solicitadas
+exit
+MYPATH='/media/marvin/8868F00968EFF43A/Academico/MII/CC2/Practices/MII-CC17/P3'
+scp $MYPATH/1.js mcc4423998@hadoop.ugr.es:~/1.js 
+#Volver a ingresar
+ssh mcc4423998@hadoop.ugr.es
+#Copiamos y damos permisos de exe y un poco más
+docker exec -i mm.mongodb sh -c 'cat > ~/1.js' < ~/1.js 
+docker exec -i mm.mongodb chmod 755 /root/1.js
+#Ejecutamos el script
+docker exec -i mm.mongodb mongo ./root/1.js
+
+#Agregacion
+#Copiar fichero creado con consultas solicitadas
+exit
+MYPATH='/media/marvin/8868F00968EFF43A/Academico/MII/CC2/Practices/MII-CC17/P3'
+scp $MYPATH/2.js mcc4423998@hadoop.ugr.es:~/2.js 
+#Volver a ingresar
+ssh mcc4423998@hadoop.ugr.es
+#Copiamos y damos permisos de exe y un poco más
+docker exec -i mm.mongodb sh -c 'cat > ~/2.js' < ~/2.js
+docker exec -i mm.mongodb chmod 755 /root/2.js
+#Ejecutamos el script
+docker exec -i mm.mongodb mongo ./root/2.js
+
+#MapReduce
+#Crear collection en la cual se trabajará
+docker exec -i mm.mongodb sh -c 'cat > ~/Cities.csv' < /var/tmp/Cities.csv
+docker exec -i mm.mongodb sh -c 'mongoimport --db test --collection cities --type csv --headerline --file ~/Cities.csv'
+#Por si queda en estado exited el contenedor
+docker start `docker ps -a -q --filter "name=mm.mongodb"`
+#Copiar fichero creado con consultas solicitadas
+exit
+MYPATH='/media/marvin/8868F00968EFF43A/Academico/MII/CC2/Practices/MII-CC17/P3'
+scp $MYPATH/3.js mcc4423998@hadoop.ugr.es:~/3.js 
+#Volver a ingresar
+ssh mcc4423998@hadoop.ugr.es
+#Copiamos y damos permisos de exe y un poco más
+docker exec -i mm.mongodb sh -c 'cat > ~/3.js' < ~/3.js
+docker exec -i mm.mongodb chmod 755 /root/3.js
+#Ejecutamos el script y volcamos en archivo de salida en nuestro home
+docker exec -i mm.mongodb mongo ./root/3.js > ~/3.outfile
+
+

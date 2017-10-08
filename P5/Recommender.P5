@@ -1,0 +1,19 @@
+#!/bin/bash
+
+#Directorio de trabajo
+mkdir recommender
+cd recommender
+#Descargar distribution completa de mahout
+wget http://apache.rediris.es/mahout/0.11.0/apache-mahout-distribution-0.11.0.tar.gz
+tar -xzvf apache-mahout-distribution-0.11.0.tar.gz
+#Descargar dataset target
+wget http://www.grouplens.org/system/files/ml-100k.zip
+unzip ml-100k.zip
+#Copiar dataset a mahout
+cd ml-100k
+hadoop fs -put u.data u.data
+#Ejecutar tarea para el recommender de películas
+hadoop jar apache-mahout-distribution-0.11.0/mahout-mr-0.11.0-job.jar org.apache.mahout.cf.taste.hadoop.item.RecommenderJob -s SIMILARITY_COOCCURRENCE --input u.data --output output
+#Copiar a local la salida de las recomendaciones
+hadoop fs -getmerge output output.txt
+cat output.txt

@@ -1,0 +1,171 @@
+#MV1
+#Plantilla CentOS-6.5
+`ssh mcc4423998@docker.ugr.es
+onetemplate create --name "P_ServicioWeb" --cpu 1 --vcpu 1 --memory 1024 --arch x86_64 --disk 8 --nic 216 --vnc --ssh --net_context
+onetemplate instantiate 623
+onevm show 761
+ssh root@192.168.10.61
+yum –y update
+#ERROR, solucion: http://www.webhostingtalk.com/showthread.php?t=1049988
+vi /etc/yum/pluginconf.d/fastestmirror.conf Change enabled=1 to enabled=0 to disable the fastestmorror plugin
+reboot
+#app
+#http://advent.perldancer.org/2011/2
+#http://www.quackit.com/bootstrap/bootstrap_4/tutorial/bootstrap_navbars.cfm
+#https://www.digitalocean.com/community/tutorials/how-to-use-sftp-to-securely-transfer-files-with-a-remote-server
+ssh mcc4423998@docker.ugr.es
+mkdir Perl-Dancer_Simple-CRUD
+sftp mcc4423998@docker.ugr.es
+     put -r Perl-Dancer_Simple-CRUD
+ssh mcc4423998@docker.ugr.es
+yum install perl 
+yum instal cpan
+curl -L http://cpanmin.us | perl - --sudo Dancer2
+perl -MCPAN -e shell
+     install Dancer::Plugin::SimpleCRUD
+yum install "perl(DBD::mysql)"
+ssh root@192.168.10.61y
+mkdir Perl-Dancer_Simple-CRUD
+sftp root@192.168.10.61
+     put -r Perl-Dancer_Simple-CRUD
+./simplecrud-example.pl --port 80
+sudo yum install wget
+wget http...
+tar -xzvf Dancer2-0.205000.tar.gz
+cd Dancer2-0.205000
+perl Makefile.PL
+make test
+make install
+     perl -MCPAN -e
+#https://perlmaven.com/getting-started-with-perl-dancer-on-digital-ocean#aptitude
+cpanm Dancer2 Starman Daemon::Control
+perl -MCPAN -e
+    get Dancer Hash::Merge::Simple HTTP::Body
+    make Dancer Hash::Merge::Simple HTTP::Body
+    #c/ modulo
+    test Dancer ...
+    install Dancer ...
+cpanm Dancer::Plugin::SimpleCRUD::ParamsObject
+Dancer::Plugin::Auth::Extensible HTTP::Server::Simple::PSGI
+sudo yum install httpd
+chkconfig httpd on
+service httpd start
+yum install nmap
+nmap localhost -p 80
+nmap 192.168.10.61 -p 80
+yum install gcc make kernel-devel perl
+yum groupinstall “Development tools”
+yum groupinstall “Web Server”
+yum install httpd-devel
+service httpd reload
+vim /etc/sysconfig/selinux
+#set permissive
+reboot
+vi /etc/sysconfig/iptables
+#-A INPUT -m state –state NEW -m tcp -p tcp –dport 80 -j ACCEPT
+#add in correct line group INPUT
+service iptables restart
+http://advent.perldancer.org/2010/14
+vi /etc/httpd/conf/httpd.conf
+#searh mod_proxy
+     /mod_proxy
+#already exists, search and add VirtualHost
+     /VirtualHost
+<VirtualHost *:80>
+    ServerName simplecrud.com
+    ServerAlias www.simplecrud.com 
+
+    DocumentRoot /root/Perl-Dancer_Simple-CRUD
+ 
+
+    <Proxy *>
+        Order deny,allow
+        Allow from allow
+    </Proxy>
+
+    ProxyPass        / http://docker.ugr.es:15061/
+    ProxyPassReverse / http://docker.ugr.es:15061/
+</VirtualHost>
+service httpd restart
+#https://support.rackspace.com/how-to/centos-hostname-change/
+vi /etc/sysconfig/network
+#HOSTNAME=myserver.domain.com
+vi /etc/hosts
+#127.0.0.1      localhost localhost.localdomain myserver.domain.com
+hostname hostname.domain.com
+hostname 
+/etc/init.d/network restart
+./simplecrud-example.pl --port 15061
+yum install mysql
+mysql -u webu -h 192.168.10.60 -p
+./simplecrud-example.pl --port 15061 --daemon
+service httpd restart
+perl -MCPAN -e'install Text::CSV'
+onevm snapshot-create ID`
+
+#vbox
+#stackoverflow 18712642
+`VBoxManage clonehd --format RAW "Fedora 15.vdi" FedoraMySQL.img
+#Clone medium created in format 'RAW'. UUID: c8654cf1-dbc9-4307-b5f1-c21e9c477aa0
+zip FedoraMySQL.zip FedoraMySQL.img
+scp FedoraMySQL.zip mcc4423998@docker.ugr.es:/home/mcc4423998/
+unzip FedoraMySQL.zip
+qemu-img convert -f raw FedoraMySQL.img -O qcow2 FedoraMySQL.qcow2
+oneimage create -d default --name fedoramysql --path /home/mcc4423998/FedoraMySQL.qcow2 --type OS --driver qcow2 -description "MiFedoraMySQL"
+oneimage create -d 1 --name fedoramysql --path /home/mcc4423998/FedoraMySQL.qcow2 --prefix sd --type OS --driver qcow2 --description "MiFedoraMySQL"
+oneimage create -d default --name fedoramysql --path /home/mcc4423998/FedoraMySQL.img
+#Error Net::ReadTimeout`
+
+#MV2
+#Plantilla Ubuntu-14.04
+`ssh mcc4423998@docker.ugr.es
+onetemplate create --name "P_ServicioSGBD" --cpu 1 --vcpu 1 --memory 1024 --arch x86_64 --disk 10 --nic 216 --vnc --ssh --net_context
+onetemplate instantiate 627
+ssh root@192.168.10.60
+apt-get update –y 
+reboot
+onevm list
+ssh root@192.168.10.60
+#https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-14-04
+apt-get update –y 
+apt-get upgrade –y 
+apt-get install mysql-server 
+apt-get purge mysql-server 
+apt-get autoremove
+apt-get autoclean
+reboot
+do-release-upgrade
+ubuntu 16.04.2 lts
+wget http://dev.mysql.com/get/mysql-apt-config_0.6.0-1_all.deb
+sudo dpkg -i mysql-apt-config_0.6.0-1_all.deb
+sudo apt-get update
+sudo apt-get install mysql-server
+mysql_secure_installation
+mysql --version
+service mysql status
+#https://www.linuxito.com/gnu-linux/nivel-medio/170-como-habilitar-el-acceso-remoto-a-un-servidor-de-bases-de-datos-mysql
+mysqladmin -p -u root version
+vi /etc/mysql/my.cnf
+#[mysqld]
+#bind-address = 192.168.1.60
+# #skip-networking
+/etc/init.d/mysql restart
+mysql -u root -p
+    GRANT ALL ON base1.* TO 'webu'@'192.168.10.61' IDENTIFIED BY 'webu123';
+    quit
+ifconfig
+iptables -A INPUT -i eth0 -s 192.168.10.61 -p tcp --destination-port 3306 -j ACCEPT
+iptables -A INPUT -i eth0 -s 192.168.10.60 -p tcp --destination-port 3306 -j ACCEPT
+iptables-save
+#http://joshualande.com/create-tables-sql
+touch schema.sql
+sftp mcc4423998@docker.ugr.es
+     put -r schema.sql
+     exit
+ssh mcc4423998@docker.ugr.es
+sftp root@192.168.10.60
+     put -r schema.sql
+     exit
+ssh root@192.168.10.60
+mysql -u root -p base1 < schema.sql
+onevm snapshot-create ID`
