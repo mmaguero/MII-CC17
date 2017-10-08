@@ -23,4 +23,4 @@ Big data - Computación Distribuida y Escalable con Hadoop (HDFS + MapReduce)
 
 ## P5
 
-Bid data - Ciencia de Datos con Hadoop (HDFS + MapReduce) y Mahout (Random Forests, Recommender System "MovieLens")
+Bid data - Ciencia de Datos con Hadoop (HDFS + MapReduce) y Mahout (Random Forest, Recommender System "MovieLens")
